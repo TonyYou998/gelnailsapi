@@ -8,8 +8,15 @@ const moment=require("moment");
 mongoose.connect("mongodb+srv://admin:39272762Bell@gelnails.hjldk.mongodb.net/gelnailsDB",{useNewUrlParser:true,useUnifiedTopology: true });
 
 
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({extended:true,type: 'application/x-www-form-urlencoded'}));
 
-app.use(bodyParser.urlencoded({extended:true}))
+app.use((req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader('Access-Control-Allow-Methods','POST');
+    res.setHeader('Access-Control-Allow-Headers','*');
+    next();
+})
 app.get("/",(req,res)=>{
     res.send("gelnails")
 
@@ -17,7 +24,7 @@ app.get("/",(req,res)=>{
 
 app.route("/booking")
     .post((req,res)=>{
-        
+        console.log(req.body);
         const fullName=req.body.fullname;
         const email=req.body.email;
         const phone=req.body.phone;
@@ -84,10 +91,10 @@ app.get("/booking/latest",(req,res)=>{
     
 let port= process.env.PORT;
 if(port==null||port==""){
-  port=3000;
+  port=4000;
 
 
 }
 app.listen(port,()=>{
-    console.log("running on port 3000");
+    console.log("running on port 4000");
 })
